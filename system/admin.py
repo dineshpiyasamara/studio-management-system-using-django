@@ -15,6 +15,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 class SellingAdmin(admin.ModelAdmin):
     list_display = ['item', 'selling_price']
+    
 
 admin.site.register(Item)
 admin.site.register(SellingPrice)
