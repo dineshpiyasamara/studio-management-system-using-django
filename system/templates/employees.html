@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <title>Register</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Gender</th>
+        </tr>
+        {% for user in employee_table %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.0 }}</td>
+            <td>{{ user.1 }}</td>
+            <td>{{ user.2 }}</td>
+            <td>{{ user.3 }}</td>
+            <td>{{ user.4 }}</td>
+            <td>{{ user.5 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% if control %}
+        <div><a href="{% url 'register' %}">Register an Employee</a></div>
+    {% endif %}
+    <br>
+    <div><a href="../">Back to Home</a></div>
+
+  </body>
+</html>

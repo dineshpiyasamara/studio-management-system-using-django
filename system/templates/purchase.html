@@ -1,0 +1,35 @@
+<h1>{{ title }}</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>Product Code</td>
+            <td><input type="text" name="product_code" required></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td><input type="text" name="category" required></td>
+        </tr>
+        <tr>
+            <td>Color</td>
+            <td><input type="text" name="color" required></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><input type="text" name="description" required></td>
+        </tr>
+        <tr>
+            <td>Purchase Price</td>
+            <td><input type="decimal" name="purchase_price" required></td>
+        </tr>
+        <tr>
+            <td>Selling Price</td>
+            <td><input type="decimal" name="selling_price" required></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>            
+        </tr>
+    </table>
+    <div><a href="../">Back to Home</a></div>
+</form>

@@ -1,0 +1,20 @@
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
+    </head>
+    
+    <body>
+        <h1>{{ title }}</h1>
+        
+        <div><a href="{% url 'inventory' %}">Inventory</a></div>
+        <div><a href="{% url 'sell' %}">Sell Items</a></div>
+        <div><a href="{% url 'purchase' %}">Purchase Items</a></div>
+        <div><a href="{% url 'employees' %}">Employees</a></div>
+        <br>
+        <br>
+        <div><a href="{% url 'logout' %}">Logout</a></div>
+    </body>
+</html>
+

@@ -1,0 +1,78 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Items</title>
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
+    </style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src={% static 'main.js' %} defer></script>
+    <link rel="stylesheet" href={% static 'stylesheet.css' %}>
+</head>
+<body>
+    {{ title }}
+
+    <form action="" method="post" id="selling-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Product Code</td>
+                
+                    <td>
+                        <div id="items">                          
+                            <select name="" id="item-data" required>
+                                <option value="" selected disabled hidden>Choose here</option>
+                            </select>
+                        </div>
+                    </td>
+
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>
+                    <input type="text" name="category" id="category" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>Color</td>
+                <td><input type="text" name="color" id="color" readonly></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><input type="text" name="description" id = "description" readonly></td>
+            </tr>
+            <tr>
+                <td>Selling Price</td>
+                <td><input type="decimal" name="selling_price" id = "selling_price" onkeyup="tot()" readonly></td>
+            </tr>
+            <tr>
+                <td>Qty</td>
+                <td><input type="number" name="qty" id = "qty" onkeyup="tot()" required></td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td><input type="decimal" name="total" id = "total" readonly></td>
+            </tr>
+        </table>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

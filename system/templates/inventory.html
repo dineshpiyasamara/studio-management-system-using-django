@@ -1,0 +1,26 @@
+<html>
+    {{ title }}
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Product Code</th>
+            <th>Category</th>
+            <th>Color</th>
+            <th>Description</th>
+            <th>Purchase price</th>
+            <th>Selling price</th>
+        </tr>
+        {% for item in item_table %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.0 }}</td>
+            <td>{{ item.1 }}</td>
+            <td>{{ item.2 }}</td>
+            <td>{{ item.3 }}</td>
+            <td>{{ item.4 }}</td>
+            <td><a href="">{{ item.5 }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div><a href="../">Back to Home</a></div>
+</html>
