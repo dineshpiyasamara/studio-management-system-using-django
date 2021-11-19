@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from system.forms import *
 from django.http import JsonResponse
+from django.db.models import Sum
 
 
 def loginUser(request):
@@ -35,6 +36,9 @@ def home(request):
         'title':title,
     })
 
+
+
+
 @login_required(login_url='login')
 def purchase(request):
     title = "Purchase Items"
@@ -61,6 +65,8 @@ def purchase(request):
         return render(request, 'purchase.html', {
             'title':title,
         })
+
+
 
 
 def sell(request):
@@ -94,6 +100,8 @@ def json_item_data_others(request, *args, **kwargs):
         'price':obj_price[0].selling_price,
     })
 
+
+
 @login_required(login_url='login')
 def items(request):
     title = "Inventory"
@@ -114,12 +122,26 @@ def items(request):
             if item.product_code == sell.item.product_code:
                 price = sell.selling_price
         data.append(price)
+
+        purchases_tot = Purchases.objects.filter(product_code=item.product_code).aggregate(Sum('qty'))
+        sales_tot = Sales.objects.filter(product_code=item.product_code).aggregate(Sum('qty'))
+
+        if purchases_tot['qty__sum']==None:
+            purchases_tot['qty__sum'] = 0
+        if sales_tot['qty__sum']==None:
+            sales_tot['qty__sum'] = 0
+
+        data.append(purchases_tot['qty__sum'] - sales_tot['qty__sum'])
+
         datalist.append(data)
 
     return render(request, 'inventory.html', {
         'title': title,
         'item_table': datalist,
     })
+
+
+
 
 
 @login_required

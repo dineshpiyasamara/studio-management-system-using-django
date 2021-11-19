@@ -9,6 +9,7 @@
             <th>Description</th>
             <th>Purchase price</th>
             <th>Selling price</th>
+            <th>Qty</th>
         </tr>
         {% for item in item_table %}
         <tr>
@@ -19,6 +20,7 @@
             <td>{{ item.3 }}</td>
             <td>{{ item.4 }}</td>
             <td><a href="">{{ item.5 }}</a></td>
+            <td>{{ item.6 }}</td>
         </tr>
         {% endfor %}
     </table>
