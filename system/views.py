@@ -174,6 +174,7 @@ def employee(request):
         newdatalist.append(data)
 
     return render(request, 'employees.html', {
+        'me': request.user.username,
         'title': title,
         'employee_table': newdatalist,
         'control': request.user.is_staff,

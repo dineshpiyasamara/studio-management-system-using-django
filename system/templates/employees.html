@@ -6,6 +6,7 @@
   </head>
   <body>
     <h1>{{ title }}</h1>
+
     <table>
         <tr>
             <th>#</th>
@@ -19,7 +20,11 @@
         {% for user in employee_table %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ user.0 }}</td>
+            {% if me == user.0 %}
+              <td><a href="">{{ user.0 }}</a></td>
+            {% else %}
+              <td>{{ user.0 }}</td>
+            {% endif %}
             <td>{{ user.1 }}</td>
             <td>{{ user.2 }}</td>
             <td>{{ user.3 }}</td>
