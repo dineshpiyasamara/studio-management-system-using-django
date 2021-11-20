@@ -7,50 +7,49 @@
 </head>
 <body>
     <h1>{{ title }}</h1>
-    <table>
-        <tr>
-            <td>Username</td>
-            <td><input type="text" name="username" required></td>
-        </tr>
-        <tr>
-            <td>First Name</td>
-            <td><input type="text" name="first_name" required></td>
-        </tr>
-        <tr>
-            <td>Last Name</td>
-            <td><input type="text" name="last_name" required></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><input type="text" name="address" required></td>
-        </tr>
-        <tr>
-            <td>Phone Number</td>
-            <td><input type="text" name="phone_number" required></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input type="email" name="email" required></td>
-        </tr>
-        <tr>
-            <td>Gender</td>
-            <td>
-                <input type="radio" name="Gender">Male
-                <input type="radio" name="Gender">Female
-            </td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password1" required></td>
-        </tr>
-        <tr>
-            <td>Confirm Password</td>
-            <td><input type="password" name="password2" required></td>
-        </tr>
-        <tr>
-            <td><button type="submit">Submit</button></td>            
-        </tr>
-    </table>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" name="first_name" value={{data.0}}></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" name="last_name" value={{data.1}}></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><input type="text" name="address" value={{data.2}}></td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td><input type="text" name="phone_number" value={{data.3}}></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="email" value={{data.4}}></td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td>
+                    {% if data.5 == 'MALE' %}
+                    <input type="radio" name="Gender" value="MALE" checked>Male
+                    <input type="radio" name="Gender" value="FEMALE">Female
+                    {% elif data.5 == 'FEMALE' %}
+                    <input type="radio" name="Gender" value="MALE">Male
+                    <input type="radio" name="Gender" value="FEMALE" checked>Female
+                    {% else %}
+                    <input type="radio" name="Gender" value="MALE">Male
+                    <input type="radio" name="Gender" value="FEMALE">Female
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><button type="submit">Save</button></td>            
+            </tr>
+        </table>
+    </form> 
     
     <div><a href="{% url 'employees' %}">Back</a></div>
 </body>

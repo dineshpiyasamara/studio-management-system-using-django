@@ -68,7 +68,7 @@ def purchase(request):
 
 
 
-
+@login_required(login_url='login')
 def sell(request):
     title = "Sell Items"
     if request.method=="POST":
@@ -144,7 +144,7 @@ def items(request):
 
 
 
-@login_required
+@login_required(login_url='login')
 def employee(request):
     title = 'Employee'
     employee_table = User.objects.all()
@@ -158,6 +158,10 @@ def employee(request):
             data.append('{} {}'.format(employee.first_name, employee.last_name))
             data.append(employee.email)
 
+            address = ''
+            phone_number = ''
+            gender = ''
+
             for account in account_table:
                 if employee.username == account.user.username:
                     address = account.address
@@ -166,6 +170,7 @@ def employee(request):
             data.append(address)
             data.append(phone_number)
             data.append(gender)
+
             datalist.append(data)
 
     newdatalist = []
@@ -181,16 +186,77 @@ def employee(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 def registerUser(request):
     title = 'Register'
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
             form.save()
+
+            emp_obj = Account(user = User.objects.all().last())
+            emp_obj.save()
             return redirect("../")
     form = NewUserForm()
     return render (request, "register.html", {
         'title':title,
         'form':form,
+    })
+
+@login_required(login_url='login')
+def editUser(request, name):
+    title = name
+
+    userdata = User.objects.get(id=request.user.id)
+    accountdata = Account.objects.get(user=request.user.id)
+
+    data = []
+    data.append(userdata.first_name)
+    data.append(userdata.last_name)
+    data.append(accountdata.address)
+    data.append(accountdata.phone_number)
+    data.append(userdata.email)
+    data.append(accountdata.gender)
+
+    data = [x if x!=None else "" for x in data]
+
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        address = request.POST.get("address")
+        phone_number = request.POST.get("phone_number")
+        email = request.POST.get("email")
+        gender = request.POST.get("Gender")
+
+        userdata.first_name = first_name
+        userdata.last_name = last_name
+        userdata.email = email
+        userdata.save()
+
+        accountdata.phone_number = phone_number
+        accountdata.address = address
+        accountdata.gender = gender
+        accountdata.save()
+
+        userdata = User.objects.get(id=request.user.id)
+        accountdata = Account.objects.get(user=request.user.id)
+
+        data = []
+        data.append(userdata.first_name)
+        data.append(userdata.last_name)
+        data.append(accountdata.address)
+        data.append(accountdata.phone_number)
+        data.append(userdata.email)
+        data.append(accountdata.gender)
+
+        data = [x if x!=None else "" for x in data]
+
+        return render(request, "emp_details.html", {
+            'title': title,
+            'data':data,
+        })
+
+    return render(request, "emp_details.html", {
+        'title': title,
+        'data':data,
     })
