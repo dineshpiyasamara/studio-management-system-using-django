@@ -1,12 +1,16 @@
-from django.db.models.base import Model
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .models import *
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView
+
 from system.forms import *
 from django.http import JsonResponse
 from django.db.models import Sum
+from django.contrib import messages
 
 
 def loginUser(request):
@@ -196,6 +200,7 @@ def registerUser(request):
 
             emp_obj = Account(user = User.objects.all().last())
             emp_obj.save()
+
             return redirect("../")
     form = NewUserForm()
     return render (request, "register.html", {
@@ -238,6 +243,8 @@ def editUser(request, name):
         accountdata.gender = gender
         accountdata.save()
 
+        messages.info(request, "Your bios save successful")
+
         userdata = User.objects.get(id=request.user.id)
         accountdata = Account.objects.get(user=request.user.id)
 
@@ -250,13 +257,17 @@ def editUser(request, name):
         data.append(accountdata.gender)
 
         data = [x if x!=None else "" for x in data]
-
-        return render(request, "emp_details.html", {
-            'title': title,
-            'data':data,
-        })
+        return redirect('employees')
 
     return render(request, "emp_details.html", {
         'title': title,
         'data':data,
     })
+
+
+class MpPasswordChangeView(PasswordChangeView):
+    model = User
+    template_name = "change-password.html"
+    success_url = reverse_lazy('employees')
+    success_message = "Password Changed Successfull"
+

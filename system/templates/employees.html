@@ -7,6 +7,13 @@
   <body>
     <h1>{{ title }}</h1>
 
+    {{ msg }}
+    <div>
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+
     <table>
         <tr>
             <th>#</th>

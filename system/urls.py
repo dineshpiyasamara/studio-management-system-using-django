@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from system import views
+from .views import MpPasswordChangeView
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,6 +11,7 @@ urlpatterns = [
     path('employees/', views.employee, name='employees'),
     path('employees/add/', views.registerUser, name='register'),
     path('employees/<str:name>/', views.editUser, name='edit'),
+    path('employees/<str:name>/change-password/', MpPasswordChangeView.as_view() , name='password'),
 
     path('login/', views.loginUser, name='login'),
     path('logout/', views.logoutUser, name='logout'),

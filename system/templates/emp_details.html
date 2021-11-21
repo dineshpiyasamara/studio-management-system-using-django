@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>{{ title }}</h1>
+
     <form action="" method="POST">
         {% csrf_token %}
         <table>
@@ -46,10 +47,13 @@
                 </td>
             </tr>
             <tr>
-                <td><button type="submit">Save</button></td>            
+                <td><button type="submit" name="edit_bio">Save</button></td>            
             </tr>
         </table>
-    </form> 
+
+        <p>Do you want to update your password? <a href="./change-password/">Click here</a></p>
+
+    </form>
     
     <div><a href="{% url 'employees' %}">Back</a></div>
 </body>
