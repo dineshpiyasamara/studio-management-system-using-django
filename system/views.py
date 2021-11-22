@@ -145,6 +145,44 @@ def items(request):
     })
 
 
+@login_required(login_url='login')
+def item_selling_price(request, product):
+    title = "Change Selling Price"
+
+    selling_price_table = SellingPrice.objects.all()
+
+    price = ''
+    for sell in selling_price_table:
+        if sell.item.product_code == product:
+            price = sell.selling_price
+    
+    if request.method == "POST":
+        new_price = request.POST.get('price')
+        item_obj = ''
+        items = Item.objects.filter(product_code=product)
+        for item in items:
+            item_obj = item
+        
+        if str(new_price).isdecimal():
+            sell_obj = SellingPrice(item=item_obj, selling_price=new_price)
+            sell_obj.save()
+            messages.success(request, ('Selling Price of {} is updated'.format(product)))
+        else:
+            messages.error(request, "Please enter a valid price")
+            return render(request, 'change_price.html', {
+                'title' : title,
+                'product': product,
+                'price' : price,
+            })
+            
+
+        return redirect('inventory')
+
+    return render(request, 'change_price.html', {
+        'title' : title,
+        'product': product,
+        'price' : price,
+    })
 
 
 
@@ -196,12 +234,24 @@ def registerUser(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save()           
 
             emp_obj = Account(user = User.objects.all().last())
             emp_obj.save()
-
+            messages.success(request, "User successfully registered")
             return redirect("../")
+        else:
+            name = form.cleaned_data.get('username')
+            pass1 = form.cleaned_data.get('password1')
+            pass2 = form.cleaned_data.get('password2')
+            print(name)
+            users = User.objects.filter(username=str(name)).count()
+
+            if users != 0 or name == None:
+                messages.error(request, "User Already exist")
+            else:
+                messages.error(request, "Password invalid or mismatch")
+
     form = NewUserForm()
     return render (request, "register.html", {
         'title':title,

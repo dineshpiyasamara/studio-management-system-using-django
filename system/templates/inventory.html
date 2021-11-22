@@ -1,5 +1,10 @@
 <html>
     {{ title }}
+    {% if messages %}
+        {% for message in messages %}
+            <div>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <table>
         <tr>
             <th>#</th>
@@ -19,7 +24,7 @@
             <td>{{ item.2 }}</td>
             <td>{{ item.3 }}</td>
             <td>{{ item.4 }}</td>
-            <td><a href="">{{ item.5 }}</a></td>
+            <td><a href="{% url 'sellingprice' item.0 %}">{{ item.5 }}</a></td>
             <td>{{ item.6 }}</td>
         </tr>
         {% endfor %}
