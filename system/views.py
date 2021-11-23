@@ -194,7 +194,7 @@ def employee(request):
 
     datalist = []
     for employee in employee_table:
-        if employee.is_superuser == False:
+        if employee.is_superuser == False and employee.is_active == True:
             data = []
             data.append(employee.username)
             data.append('{} {}'.format(employee.first_name, employee.last_name))
@@ -321,3 +321,18 @@ class MpPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy('employees')
     success_message = "Password Changed Successfull"
 
+
+@login_required(login_url='login')
+def delete_user(request, name):
+
+    if request.method == 'POST':
+        user_obj = User.objects.get(username=name)
+        user_obj.is_active = False
+        user_obj.save()
+        messages.success(request, 'User removed successful')
+
+        return redirect('employees')
+
+    return render(request, 'remove_user.html', {
+        'name' : name,
+    })

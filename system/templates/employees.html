@@ -36,6 +36,11 @@
             <td>{{ user.3 }}</td>
             <td>{{ user.4 }}</td>
             <td>{{ user.5 }}</td>
+            <td>
+            {% if control and me != user.0 %}
+                <div><a href="{% url 'delete_user' user.0 %}">Remove</a></div>
+            {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>

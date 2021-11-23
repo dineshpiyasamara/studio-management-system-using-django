@@ -13,6 +13,7 @@ urlpatterns = [
     path('employees/add/', views.registerUser, name='register'),
     path('employees/<str:name>/', views.editUser, name='edit'),
     path('employees/<str:name>/change-password/', MpPasswordChangeView.as_view() , name='password'),
+    path('employees/remove/<str:name>/', views.delete_user , name='delete_user'),
 
     path('login/', views.loginUser, name='login'),
     path('logout/', views.logoutUser, name='logout'),

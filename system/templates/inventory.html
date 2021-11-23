@@ -1,11 +1,24 @@
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    
+</head>
+<body>
     {{ title }}
     {% if messages %}
         {% for message in messages %}
             <div>{{ message }}</div>
         {% endfor %}
     {% endif %}
-    <table>
+
+    <div>
+        <input type="text" id="myInput" name="search" placeholder="Search Product Code..." onkeyup="tableSearch()">
+    
+
+    <table id="myTable" data-filter-control='true' data-show-search-clear-button='true'>
         <tr>
             <th>#</th>
             <th>Product Code</th>
@@ -29,5 +42,33 @@
         </tr>
         {% endfor %}
     </table>
+    </div>
     <div><a href="../">Back to Home</a></div>
+
+    <script>
+        function tableSearch(){
+            let input, filter, table, tr, td, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for(let i=0; i<tr.length; i++){
+                td = tr[i].getElementsByTagName("td")[1];
+                if(td){
+                    txtValue = td.textContent || td.innerText;
+                    if(txtValue.toUpperCase().indexOf(filter) > -1){
+                        tr[i].style.display = "";
+                    }
+                    else{
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+        }
+    </script>
+
+</body>
 </html>
+
