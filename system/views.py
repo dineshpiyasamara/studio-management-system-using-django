@@ -26,9 +26,11 @@ def loginUser(request):
 
     return render(request, 'login.html')
 
+
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
 
 @login_required(login_url='login')
 def home(request):
@@ -36,11 +38,9 @@ def home(request):
     if request.user.is_authenticated:
         title = "Welcome {}".format(request.user)
 
-    return render(request, 'home.html',{
-        'title':title,
+    return render(request, 'home.html', {
+        'title': title,
     })
-
-
 
 
 @login_required(login_url='login')
@@ -48,62 +48,76 @@ def purchase(request):
     title = "Purchase Items"
 
     if request.method == 'POST':
-        prod = request.POST.get('product_code',"error")
+
+        prod = request.POST.get('product_code', "error")
         cat = request.POST.get('category')
         col = request.POST.get('color')
         des = request.POST.get('description')
         purch = request.POST.get('purchase_price')
         sell = request.POST.get('selling_price')
+        qty = request.POST.get('qty')
+        org = request.POST.get('organization')
+        address = request.POST.get('address')
+        phone = request.POST.get('phone_number')
 
-        item_obj = Item(product_code = prod, category = cat, color = col, description = des, purchase_price = purch)
+        item_obj = Item(product_code=prod, category=cat,
+                        color=col, description=des, purchase_price=purch)
         item_obj.save()
 
         items = Item.objects.all()
         for item in items:
             if item.product_code == prod:
-                sell_obj = SellingPrice(item = item, selling_price = sell)
-                sell_obj.save()      
-        return redirect('inventory')
+                sell_obj = SellingPrice(item=item, selling_price=sell)
+                sell_obj.save()
 
-    else:
-        return render(request, 'purchase.html', {
-            'title':title,
-        })
+        supplier_obj = Suppliers(
+            organization=org, address=address, phone_number=phone)
+        supplier_obj.save()
 
+        purchase_obj = Purchases(
+            qty=qty, product_code=item, supplier_id=supplier_obj)
+        purchase_obj.save()
+
+        messages.success(request, "Purchase Successful")
+
+    return render(request, 'purchase.html', {
+        'title': title,
+    })
 
 
 @login_required(login_url='login')
 def sell(request):
     title = "Sell Items"
-    if request.method=="POST":
+    if request.method == "POST":
         return render(request, 'sell.html', {
-            'title':title,
+            'title': title,
         })
     else:
         itemObjectList = Item.objects.all().order_by('product_code')
 
-
         return render(request, 'sell.html', {
-            'title':title,
-           'itemObjectList':itemObjectList,
+            'title': title,
+            'itemObjectList': itemObjectList,
         })
+
 
 def json_item_data(request):
     val = list(Item.objects.values())
     return JsonResponse({
-        'data':val,
+        'data': val,
     })
+
 
 def json_item_data_others(request, *args, **kwargs):
     selectedProduct = kwargs.get('product')
     obj_data = list(Item.objects.filter(product_code=selectedProduct).values())
-    obj_price = SellingPrice.objects.raw("SELECT id,selling_price FROM system_sellingprice Where item_id='"+selectedProduct+"' ORDER BY id DESC LIMIT 1")
+    obj_price = SellingPrice.objects.raw(
+        "SELECT id,selling_price FROM system_sellingprice Where item_id='"+selectedProduct+"' ORDER BY id DESC LIMIT 1")
 
     return JsonResponse({
-        'data':obj_data,
-        'price':obj_price[0].selling_price,
+        'data': obj_data,
+        'price': obj_price[0].selling_price,
     })
-
 
 
 @login_required(login_url='login')
@@ -127,12 +141,14 @@ def items(request):
                 price = sell.selling_price
         data.append(price)
 
-        purchases_tot = Purchases.objects.filter(product_code=item.product_code).aggregate(Sum('qty'))
-        sales_tot = Sales.objects.filter(product_code=item.product_code).aggregate(Sum('qty'))
+        purchases_tot = Purchases.objects.filter(
+            product_code=item.product_code).aggregate(Sum('qty'))
+        sales_tot = Sales.objects.filter(
+            product_code=item.product_code).aggregate(Sum('qty'))
 
-        if purchases_tot['qty__sum']==None:
+        if purchases_tot['qty__sum'] == None:
             purchases_tot['qty__sum'] = 0
-        if sales_tot['qty__sum']==None:
+        if sales_tot['qty__sum'] == None:
             sales_tot['qty__sum'] = 0
 
         data.append(purchases_tot['qty__sum'] - sales_tot['qty__sum'])
@@ -155,35 +171,34 @@ def item_selling_price(request, product):
     for sell in selling_price_table:
         if sell.item.product_code == product:
             price = sell.selling_price
-    
+
     if request.method == "POST":
         new_price = request.POST.get('price')
         item_obj = ''
         items = Item.objects.filter(product_code=product)
         for item in items:
             item_obj = item
-        
+
         if str(new_price).isdecimal():
             sell_obj = SellingPrice(item=item_obj, selling_price=new_price)
             sell_obj.save()
-            messages.success(request, ('Selling Price of {} is updated'.format(product)))
+            messages.success(
+                request, ('Selling Price of {} is updated'.format(product)))
         else:
             messages.error(request, "Please enter a valid price")
             return render(request, 'change_price.html', {
-                'title' : title,
+                'title': title,
                 'product': product,
-                'price' : price,
+                'price': price,
             })
-            
 
         return redirect('inventory')
 
     return render(request, 'change_price.html', {
-        'title' : title,
+        'title': title,
         'product': product,
-        'price' : price,
+        'price': price,
     })
-
 
 
 @login_required(login_url='login')
@@ -197,7 +212,8 @@ def employee(request):
         if employee.is_superuser == False and employee.is_active == True:
             data = []
             data.append(employee.username)
-            data.append('{} {}'.format(employee.first_name, employee.last_name))
+            data.append('{} {}'.format(
+                employee.first_name, employee.last_name))
             data.append(employee.email)
 
             address = ''
@@ -217,7 +233,7 @@ def employee(request):
 
     newdatalist = []
     for y in datalist:
-        data = [x if x!=None else "" for x in y]
+        data = [x if x != None else "" for x in y]
         newdatalist.append(data)
 
     return render(request, 'employees.html', {
@@ -234,9 +250,9 @@ def registerUser(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-            form.save()           
+            form.save()
 
-            emp_obj = Account(user = User.objects.all().last())
+            emp_obj = Account(user=User.objects.all().last())
             emp_obj.save()
             messages.success(request, "User successfully registered")
             return redirect("../")
@@ -253,10 +269,11 @@ def registerUser(request):
                 messages.error(request, "Password invalid or mismatch")
 
     form = NewUserForm()
-    return render (request, "register.html", {
-        'title':title,
-        'form':form,
+    return render(request, "register.html", {
+        'title': title,
+        'form': form,
     })
+
 
 @login_required(login_url='login')
 def editUser(request, name):
@@ -273,7 +290,7 @@ def editUser(request, name):
     data.append(userdata.email)
     data.append(accountdata.gender)
 
-    data = [x if x!=None else "" for x in data]
+    data = [x if x != None else "" for x in data]
 
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -306,12 +323,12 @@ def editUser(request, name):
         data.append(userdata.email)
         data.append(accountdata.gender)
 
-        data = [x if x!=None else "" for x in data]
+        data = [x if x != None else "" for x in data]
         return redirect('employees')
 
     return render(request, "emp_details.html", {
         'title': title,
-        'data':data,
+        'data': data,
     })
 
 
@@ -329,10 +346,11 @@ def delete_user(request, name):
         user_obj = User.objects.get(username=name)
         user_obj.is_active = False
         user_obj.save()
+
         messages.success(request, 'User removed successful')
 
         return redirect('employees')
 
     return render(request, 'remove_user.html', {
-        'name' : name,
+        'name': name,
     })

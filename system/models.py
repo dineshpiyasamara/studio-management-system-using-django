@@ -2,36 +2,47 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 
+
 class Item(models.Model):
     product_code = models.CharField(primary_key=True, max_length=30)
     category = models.CharField(max_length=50, null=True, blank=True)
     color = models.CharField(max_length=30, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
-    purchase_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    purchase_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return '{}'.format(self.product_code)
 
+
 class SellingPrice(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    selling_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    selling_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.item,self.selling_price)
+        return '{} - {}'.format(self.item, self.selling_price)
+
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=12, null=True, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
-    gender = models.CharField(max_length=6, choices=[('MALE', 'MALE'), ('FEMALE', 'FEMALE')], null=True, blank=True)
+    gender = models.CharField(max_length=6, choices=[(
+        'MALE', 'MALE'), ('FEMALE', 'FEMALE')], null=True, blank=True)
 
     def __str__(self):
         return self.user.username
+
 
 class Suppliers(models.Model):
     organization = models.CharField(max_length=30, null=True, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
+
+    def __str__(self):
+        return self.organization
+
 
 class Purchases(models.Model):
     date = models.DateField(auto_now_add=True)
@@ -42,6 +53,7 @@ class Purchases(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.product_code.product_code, self.supplier_id.organization)
 
+
 class Customers(models.Model):
     name = models.CharField(max_length=30, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
@@ -49,6 +61,7 @@ class Customers(models.Model):
 
     def __str__(self):
         return '{}'.format(self.name)
+
 
 class Sales(models.Model):
     date = models.DateField(auto_now_add=True)
