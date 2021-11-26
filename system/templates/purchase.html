@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <title>Purchase</title>
 </head>
 <body>
@@ -69,6 +70,53 @@
 </form>
 
 <div><a href="../">Back to Home</a></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    $(function(){
+        $("#organization").autocomplete({
+            source: "{% url 'purchaseOrg' %}"
+        })
+    })
+</script>
+<script>
+    $(function(){
+        $("#product_code").autocomplete({
+            source: "{% url 'purchaseProducts' %}"
+        })
+    })
+</script>
+<script>
+    const itemInput = document.getElementById("product_code")
+    itemInput.addEventListener('change', e=>{
+    const selectedProduct = e.target.value
+
+    $.ajax({
+        type: 'GET',
+        url: `/other-item-json/${selectedProduct}/`,
+        success: function(response){
+
+            
+            const otherData = response.data;
+            otherData.map(item=>{
+                document.getElementById("category").value = item.category
+                document.getElementById("color").value = item.color
+                document.getElementById("description").value = item.description
+            })
+            
+            document.getElementById("selling_price").value = response.price
+        },
+        error: function(error){
+            console.log(error)
+            document.getElementById("category").value = ''
+            document.getElementById("color").value = ''
+            document.getElementById("description").value = ''
+            document.getElementById("selling_price").value = ''
+        }
+    })
+})
+</script>
 
 </body>
 </html>

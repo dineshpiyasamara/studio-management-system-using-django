@@ -27,6 +27,12 @@
 </head>
 <body>
     {{ title }}
+    {% if messages %}
+        {% for message in messages %}
+            <div>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
 
     <form action="" method="post" id="selling-data">
         {% csrf_token %}

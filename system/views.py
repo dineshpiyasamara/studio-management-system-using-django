@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .models import *
@@ -27,6 +29,7 @@ def loginUser(request):
     return render(request, 'login.html')
 
 
+@login_required(login_url='login')
 def logoutUser(request):
     logout(request)
     return redirect('login')
@@ -86,6 +89,35 @@ def purchase(request):
 
 
 @login_required(login_url='login')
+def purchaseOrg(request):
+    if 'term' in request.GET:
+        org_table = Suppliers.objects.filter(
+            organization__istartswith=request.GET.get('term')).distinct()
+        orgs = list()
+        for org in org_table:
+            orgs.append(org.organization)
+
+        uniqueList = []
+        for val in orgs:
+            if val not in uniqueList:
+                uniqueList.append(val)
+
+        return JsonResponse(uniqueList, safe=False)
+
+
+@login_required(login_url='login')
+def purchaseProducts(request):
+    if 'term' in request.GET:
+        prod_table = Item.objects.filter(
+            product_code__istartswith=request.GET.get('term'))
+        products = list()
+        for product in prod_table:
+            products.append(product.product_code)
+
+        return JsonResponse(products, safe=False)
+
+
+@login_required(login_url='login')
 def sell(request):
     title = "Sell Items"
     if request.method == "POST":
@@ -101,6 +133,7 @@ def sell(request):
         })
 
 
+@login_required(login_url='login')
 def json_item_data(request):
     val = list(Item.objects.values())
     return JsonResponse({
@@ -108,16 +141,22 @@ def json_item_data(request):
     })
 
 
+@login_required(login_url='login')
 def json_item_data_others(request, *args, **kwargs):
     selectedProduct = kwargs.get('product')
-    obj_data = list(Item.objects.filter(product_code=selectedProduct).values())
-    obj_price = SellingPrice.objects.raw(
-        "SELECT id,selling_price FROM system_sellingprice Where item_id='"+selectedProduct+"' ORDER BY id DESC LIMIT 1")
 
-    return JsonResponse({
-        'data': obj_data,
-        'price': obj_price[0].selling_price,
-    })
+    obj_data = list(Item.objects.filter(
+        product_code=selectedProduct).values()) or None
+
+    if selectedProduct != None:
+
+        obj_price = SellingPrice.objects.raw(
+            "SELECT id,selling_price FROM system_sellingprice Where item_id='"+selectedProduct+"' ORDER BY id DESC LIMIT 1")
+
+        return JsonResponse({
+            'data': obj_data,
+            'price': obj_price[0].selling_price,
+        })
 
 
 @login_required(login_url='login')

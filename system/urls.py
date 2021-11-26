@@ -7,8 +7,14 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     path('purchase/', views.purchase, name='purchase'),
+    path('purchase/org/', views.purchaseOrg, name='purchaseOrg'),
+    path('purchase/products/', views.purchaseProducts, name='purchaseProducts'),
+
 
     path('sell/', views.sell, name='sell'),
+    path('item-json/', views.json_item_data, name='item-json'),
+    path('other-item-json/<str:product>/',
+         views.json_item_data_others, name='other-item-json'),
 
 
     path('inventory/', views.items, name='inventory'),
@@ -24,7 +30,4 @@ urlpatterns = [
     path('login/', views.loginUser, name='login'),
     path('logout/', views.logoutUser, name='logout'),
 
-    path('item-json/', views.json_item_data, name='item-json'),
-    path('other-item-json/<str:product>/',
-         views.json_item_data_others, name='other-item-json'),
 ]

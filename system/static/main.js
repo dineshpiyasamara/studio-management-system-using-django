@@ -24,7 +24,6 @@ $.ajax({
 
 
 itemInput.addEventListener('change', e=>{
-    console.log(e.target.value)
     const selectedProduct = e.target.value
 
     $.ajax({
