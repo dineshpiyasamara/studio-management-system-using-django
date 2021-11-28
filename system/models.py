@@ -49,9 +49,10 @@ class Purchases(models.Model):
     qty = models.IntegerField()
     supplier_id = models.ForeignKey(Suppliers, on_delete=CASCADE)
     product_code = models.ForeignKey(Item, on_delete=CASCADE)
+    employee_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} - {}'.format(self.product_code.product_code, self.supplier_id.organization)
+        return '{} - {} - {}'.format(self.product_code.product_code, self.supplier_id.organization, self.employee_id.username)
 
 
 class Customers(models.Model):

@@ -15,6 +15,7 @@ urlpatterns = [
     path('item-json/', views.json_item_data, name='item-json'),
     path('other-item-json/<str:product>/',
          views.json_item_data_others, name='other-item-json'),
+    path('customer/names/', views.customerNames, name='customerNames'),
 
 
     path('inventory/', views.items, name='inventory'),

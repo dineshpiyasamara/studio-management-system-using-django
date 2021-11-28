@@ -78,7 +78,7 @@ def purchase(request):
         supplier_obj.save()
 
         purchase_obj = Purchases(
-            qty=qty, product_code=item, supplier_id=supplier_obj)
+            qty=qty, product_code=item, supplier_id=supplier_obj, employee_id=request.user)
         purchase_obj.save()
 
         messages.success(request, "Purchase Successful")
@@ -121,16 +121,29 @@ def purchaseProducts(request):
 def sell(request):
     title = "Sell Items"
     if request.method == "POST":
-        return render(request, 'sell.html', {
-            'title': title,
-        })
-    else:
-        itemObjectList = Item.objects.all().order_by('product_code')
+        name = request.POST.get('name')
+        addr = request.POST.get('address')
+        phone = request.POST.get('phone_number')
+        prod = request.POST.get('item-data')
+        qty = request.POST.get('qty')
 
-        return render(request, 'sell.html', {
-            'title': title,
-            'itemObjectList': itemObjectList,
-        })
+        customer_obj = Customers(name=name, address=addr, phone_number=phone)
+        customer_obj.save()
+
+        items = Item.objects.all()
+        for item in items:
+            if item.product_code == prod:
+                sales_obj = Sales(qty=qty, customer_id=customer_obj,
+                                  product_code=item, employee_id=request.user)
+                sales_obj.save()
+                messages.success(request, "Sell data successfully added...")
+
+    itemObjectList = Item.objects.all().order_by('product_code')
+
+    return render(request, 'sell.html', {
+        'title': title,
+        'itemObjectList': itemObjectList,
+    })
 
 
 @login_required(login_url='login')
@@ -160,6 +173,23 @@ def json_item_data_others(request, *args, **kwargs):
 
 
 @login_required(login_url='login')
+def customerNames(request):
+    if 'term' in request.GET:
+        names_table = Customers.objects.filter(
+            name__istartswith=request.GET.get('term')).distinct()
+        names = list()
+        for name in names_table:
+            names.append(name.name)
+
+        uniqueList = []
+        for val in names:
+            if val not in uniqueList:
+                uniqueList.append(val)
+
+        return JsonResponse(uniqueList, safe=False)
+
+
+@login_required(login_url='login')
 def items(request):
     title = "Inventory"
     item_table = Item.objects.all()
@@ -171,7 +201,14 @@ def items(request):
         data.append(item.product_code)
         data.append(item.category)
         data.append(item.color)
-        data.append(item.description)
+
+        if item.description == None:
+            data.append("")
+        elif(len(item.description) > 15):
+            data.append(item.description[:12]+"...")
+        else:
+            data.append(item.description)
+
         data.append(item.purchase_price)
 
         price = ''
@@ -264,7 +301,14 @@ def employee(request):
                     address = account.address
                     phone_number = account.phone_number
                     gender = account.gender
-            data.append(address)
+
+            if address == None:
+                data.append("")
+            elif(len(address) > 15):
+                data.append(address[:12]+"...")
+            else:
+                data.append(address)
+
             data.append(phone_number)
             data.append(gender)
 
