@@ -1,8 +1,10 @@
-{% load static %}
+{% extends 'base.html' %}
+
+{% block content %}
 
 <html>
     <head>
-        <link rel="static/stylesheet" href="{% static 'css/stylesheet.css' %}">
+        
     </head>
     
     <body>
@@ -17,4 +19,11 @@
         <div><a href="{% url 'logout' %}">Logout</a></div>
     </body>
 </html>
+
+
+
+{% endblock %}
+
+
+
 
