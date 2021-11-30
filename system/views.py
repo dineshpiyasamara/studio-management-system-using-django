@@ -37,17 +37,18 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def home(request):
-    title = ''
+    usertitle = ''
     if request.user.is_authenticated:
-        title = "Welcome {}".format(request.user)
+        usertitle = "Hello {}".format(request.user).title()
 
     return render(request, 'home.html', {
-        'title': title,
+        'usertitle': usertitle,
     })
 
 
 @login_required(login_url='login')
 def purchase(request):
+    usertitle = "Hello {}".format(request.user).title()
     title = "Purchase Items"
 
     if request.method == 'POST':
@@ -84,6 +85,7 @@ def purchase(request):
         messages.success(request, "Purchase Successful")
 
     return render(request, 'purchase.html', {
+        'usertitle': usertitle,
         'title': title,
     })
 
@@ -119,7 +121,9 @@ def purchaseProducts(request):
 
 @login_required(login_url='login')
 def sell(request):
+    usertitle = "Hello {}".format(request.user).title()
     title = "Sell Items"
+
     if request.method == "POST":
         name = request.POST.get('name')
         addr = request.POST.get('address')
@@ -141,8 +145,9 @@ def sell(request):
     itemObjectList = Item.objects.all().order_by('product_code')
 
     return render(request, 'sell.html', {
-        'title': title,
+        'usertitle': usertitle,
         'itemObjectList': itemObjectList,
+        'title': title,
     })
 
 
@@ -191,7 +196,9 @@ def customerNames(request):
 
 @login_required(login_url='login')
 def items(request):
+    usertitle = "Hello {}".format(request.user).title()
     title = "Inventory"
+
     item_table = Item.objects.all()
     selling_price_table = SellingPrice.objects.all()
 
@@ -232,14 +239,15 @@ def items(request):
         datalist.append(data)
 
     return render(request, 'inventory.html', {
-        'title': title,
+        'usertitle': usertitle,
         'item_table': datalist,
+        'title': title,
     })
 
 
 @login_required(login_url='login')
 def item_selling_price(request, product):
-    title = "Change Selling Price"
+    usertitle = "Hello {}".format(request.user).title()
 
     selling_price_table = SellingPrice.objects.all()
 
@@ -263,7 +271,7 @@ def item_selling_price(request, product):
         else:
             messages.error(request, "Please enter a valid price")
             return render(request, 'change_price.html', {
-                'title': title,
+                'usertitle': usertitle,
                 'product': product,
                 'price': price,
             })
@@ -271,7 +279,7 @@ def item_selling_price(request, product):
         return redirect('inventory')
 
     return render(request, 'change_price.html', {
-        'title': title,
+        'usertitle': usertitle,
         'product': product,
         'price': price,
     })
@@ -279,7 +287,9 @@ def item_selling_price(request, product):
 
 @login_required(login_url='login')
 def employee(request):
-    title = 'Employee'
+    usertitle = "Hello {}".format(request.user).title()
+    title = "Employees"
+
     employee_table = User.objects.all()
     account_table = Account.objects.all()
 
@@ -321,6 +331,7 @@ def employee(request):
 
     return render(request, 'employees.html', {
         'me': request.user.username,
+        'usertitle': usertitle,
         'title': title,
         'employee_table': newdatalist,
         'control': request.user.is_staff,
@@ -329,7 +340,7 @@ def employee(request):
 
 @login_required(login_url='login')
 def registerUser(request):
-    title = 'Register'
+    usertitle = "Hello {}".format(request.user).title()
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -353,14 +364,14 @@ def registerUser(request):
 
     form = NewUserForm()
     return render(request, "register.html", {
-        'title': title,
+        'usertitle': usertitle,
         'form': form,
     })
 
 
 @login_required(login_url='login')
 def editUser(request, name):
-    title = name
+    usertitle = "Hello {}".format(request.user).title()
 
     userdata = User.objects.get(id=request.user.id)
     accountdata = Account.objects.get(user=request.user.id)
@@ -410,7 +421,7 @@ def editUser(request, name):
         return redirect('employees')
 
     return render(request, "emp_details.html", {
-        'title': title,
+        'usertitle': usertitle,
         'data': data,
     })
 
@@ -424,6 +435,7 @@ class MpPasswordChangeView(PasswordChangeView):
 
 @login_required(login_url='login')
 def delete_user(request, name):
+    usertitle = "Hello {}".format(request.user).title()
 
     if request.method == 'POST':
         user_obj = User.objects.get(username=name)
@@ -436,4 +448,5 @@ def delete_user(request, name):
 
     return render(request, 'remove_user.html', {
         'name': name,
+        'usertitle': usertitle,
     })
