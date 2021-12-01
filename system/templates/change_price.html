@@ -3,38 +3,41 @@
 {% block content %}
 
 <body>
-    {{ title }}
 
+    <h1 class="text-center">{{ title }}</h1>
 
-    <table>
-        <tr>
-            <td>Product Code</td>
-            <td><input type="text" value="{{ product }}" readonly></td>
-        </tr>
-        <tr>
-            <td>Selling Price</td>
-            <td><input type="decimal" value="{{ price }}" readonly></td>
-        </tr>
-    </table>
-
-    {% if messages %}
-        {% for message in messages %}
-            <div>{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-
-    <form action="" method="POST">
-        {% csrf_token %}
+    <div class="container">
         <table>
             <tr>
-                <td>New Price</td>
-                <td><input type="decimal" name="price"></td>
+                <td>Product Code</td>
+                <td><input type="text" value="{{ product }}" readonly></td>
             </tr>
-            
+            <tr>
+                <td>Selling Price</td>
+                <td><input type="decimal" value="{{ price }}" readonly></td>
+            </tr>
         </table>
-        <button type="submit" >Save</button>
-    </form>
-    <a href="{% url 'inventory' %}">back</a>
+    
+        {% if messages %}
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>New Price</td>
+                    <td><input type="decimal" name="price"></td>
+                </tr>
+                
+            </table>
+            <button type="submit" >Save</button>
+        </form>
+        <a href="{% url 'inventory' %}">back</a>
+    
+    </div>
 
 </body>
 

@@ -3,43 +3,44 @@
 {% block content %}
 
 <body>
-    <h1>{{ title }}</h1>
+    <h1 class="text-center">{{ title }}</h1>
     {% if messages %}
         {% for message in messages %}
             <div>{{ message }}</div>
         {% endfor %}
     {% endif %}
 
-    <div>
-        <input type="text" id="myInput" name="search" placeholder="Search Product Code..." onkeyup="tableSearch()">
-    
-
-    <table id="myTable" data-filter-control='true' data-show-search-clear-button='true'>
-        <tr>
-            <th>#</th>
-            <th>Product Code</th>
-            <th>Category</th>
-            <th>Color</th>
-            <th>Description</th>
-            <th>Purchase price</th>
-            <th>Selling price</th>
-            <th>Qty</th>
-        </tr>
-        {% for item in item_table %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ item.0 }}</td>
-            <td>{{ item.1 }}</td>
-            <td>{{ item.2 }}</td>
-            <td>{{ item.3 }}</td>
-            <td>{{ item.4 }}</td>
-            <td><a href="{% url 'sellingprice' item.0 %}">{{ item.5 }}</a></td>
-            <td>{{ item.6 }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container"">
+        <div>
+            <input type="text" id="myInput" name="search" placeholder="Search Product Code..." onkeyup="tableSearch()">
+           
+        <table id="myTable" data-filter-control='true' data-show-search-clear-button='true'>
+            <tr>
+                <th>#</th>
+                <th>Product Code</th>
+                <th>Category</th>
+                <th>Color</th>
+                <th>Description</th>
+                <th>Purchase price</th>
+                <th>Selling price</th>
+                <th>Qty</th>
+            </tr>
+            {% for item in item_table %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.0 }}</td>
+                <td>{{ item.1 }}</td>
+                <td>{{ item.2 }}</td>
+                <td>{{ item.3 }}</td>
+                <td>{{ item.4 }}</td>
+                <td><a href="{% url 'sellingprice' item.0 %}">{{ item.5 }}</a></td>
+                <td>{{ item.6 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <div><a href="../">Back to Home</a></div>
     </div>
-    <div><a href="../">Back to Home</a></div>
 
     <script>
         function tableSearch(){

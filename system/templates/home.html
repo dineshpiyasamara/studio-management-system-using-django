@@ -2,15 +2,8 @@
 
 {% block content %}
 
-
-
-<html>
-    <head>
-
-    </head>
-
-    <body>
-        
+<body>
+    <div class="container">
         <div><a href="{% url 'inventory' %}">Inventory</a></div>
         <div><a href="{% url 'sell' %}">Sell Items</a></div>
         <div><a href="{% url 'purchase' %}">Purchase Items</a></div>
@@ -18,10 +11,9 @@
         <br>
         <br>
         <div><a href="{% url 'logout' %}">Logout</a></div>
-    </body>
-</html>
+    </div>
 
-
+</body>
 
 {% endblock content %}
 

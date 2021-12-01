@@ -2,45 +2,48 @@
 
 {% block content %}
 
-  <body>
-    <h1>{{ title }}</h1>
-    
-    {% if messages %}
-        {% for message in messages %}
-            <div>{{ message }}</div>
-        {% endfor %}
-    {% endif %}
 
+
+<body>
+  <h1 class="text-center">{{ title }}</h1>
+  
+  {% if messages %}
+      {% for message in messages %}
+          <div>{{ message }}</div>
+      {% endfor %}
+  {% endif %}
+
+  <div class="container">
     <table>
-        <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Phone Number</th>
-            <th>Gender</th>
-        </tr>
-        {% for user in employee_table %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            {% if me == user.0 %}
-              <td><a href="{% url 'edit' me %}">{{ user.0 }}</a></td>
-            {% else %}
-              <td>{{ user.0 }}</td>
-            {% endif %}
-            <td>{{ user.1 }}</td>
-            <td>{{ user.2 }}</td>
-            <td>{{ user.3 }}</td>
-            <td>{{ user.4 }}</td>
-            <td>{{ user.5 }}</td>
-            <td>
-            {% if control and me != user.0 %}
-                <div><a href="{% url 'delete_user' user.0 %}">Remove</a></div>
-            {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
+      <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Gender</th>
+      </tr>
+      {% for user in employee_table %}
+      <tr>
+          <td>{{ forloop.counter }}</td>
+          {% if me == user.0 %}
+            <td><a href="{% url 'edit' me %}">{{ user.0 }}</a></td>
+          {% else %}
+            <td>{{ user.0 }}</td>
+          {% endif %}
+          <td>{{ user.1 }}</td>
+          <td>{{ user.2 }}</td>
+          <td>{{ user.3 }}</td>
+          <td>{{ user.4 }}</td>
+          <td>{{ user.5 }}</td>
+          <td>
+          {% if control and me != user.0 %}
+              <div><a href="{% url 'delete_user' user.0 %}">Remove</a></div>
+          {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
     </table>
     <br>
     {% if control %}
@@ -48,7 +51,8 @@
     {% endif %}
     <br>
     <div><a href="../">Back to Home</a></div>
+  </div>
 
-  </body>
+</body>
 
 {% endblock %}
