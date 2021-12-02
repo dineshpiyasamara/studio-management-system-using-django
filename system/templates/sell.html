@@ -26,8 +26,14 @@
         input[type=number] {
         -moz-appearance: textfield;
         }
+
+        .my-form{
+            width: 600px;
+            margin: auto;
+        }
         
     </style>
+
 </head>
 
 {% include 'components/navbar.html' %}
@@ -44,66 +50,62 @@
     <div class="container">
         <form action="" method="post" id="selling-data">
             {% csrf_token %}
-            <table>
-                <tr>
-                    <td>Product Code</td>
-                    
-                    <td>
-                        <div id="items">                          
-                            <select name="item-data" id="item-data" onmouseleave="tot()" required>
-                                <option value="" selected disabled hidden>Choose here</option>
-                            </select>
-                        </div>
-                    </td>
+
+            <div class="my-form">
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="item_data">Product Code</label>
+                            <div id="items">                          
+                                <select class="form-select" name="item-data" id="item-data" onmouseleave="tot()" required>
+                                    <option value="" selected disabled hidden>Choose here</option>
+                                </select>
+                            </div>
     
-                </tr>
-                <tr>
-                    <td>Category</td>
-                    <td>
-                        <input type="text" name="category" id="category" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Color</td>
-                    <td><input type="text" name="color" id="color" readonly></td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td><input type="text" name="description" id = "description" readonly></td>
-                </tr>
-                <tr>
-                    <td>Selling Price</td>
-                    <td><input type="decimal" name="selling_price" id = "selling_price" onkeyup="tot()" readonly></td>
-                </tr>
-                <tr>
-                    <td>Qty</td>
-                    <td><input type="number" name="qty" id = "qty" onkeyup="tot()" required></td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td><input type="decimal" name="total" id = "total" readonly></td>
-                </tr>
-            </table>
-    
-            <br>
-            <div>Customer Details (Optional)</div>
-    
-            <table>
-                <tr>
-                    <td>Name</td>
-                    <td><input type="text" name="name" id="name"></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td><input type="text" name="address" id="address"></td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <td><input type="text" name="phone_number" id="phone_number"></td>
-                </tr>
-            </table>
+                            <label for="category">Category</label>
+                            <input class="form-control" type="text" name="category" id="category" onmouseenter="tot()" readonly>
             
-            <button type="submit" onmouseenter="tot()">Submit</button>
+                            <label for="color">Color</label>
+                            <input class="form-control" type="text" name="color" id="color" onmouseenter="tot()" readonly>
+            
+                            <label for="description">Description</label>
+                            <input class="form-control" type="text" name="description" id = "description" onmouseenter="tot()" readonly>
+                            
+                            <label for="selling_price">Selling Price</label>
+                            <input class="form-control" type="decimal" name="selling_price" id = "selling_price" onmouseenter="tot()" onkeyup="tot()" readonly>
+            
+                            <label for="qty">Qty</label>
+                            <input class="form-control" type="number" name="qty" id = "qty" onkeyup="tot()" required>
+            
+                            <label for="total">Total</label>
+                            <input class="form-control" type="decimal" name="total" id = "total" readonly>
+                        </div>
+                    </div>
+    
+                    <div class="col">
+                        <div class="form-group">
+                            <br>
+                            <div>Customer Details (Optional)</div>
+                                            
+                            <label for="name">Name</label>
+                            <input class="form-control" type="text" name="name" id="name">
+
+                            <label for="address">Address</label>
+                            <input class="form-control" type="text" name="address" id="address">
+
+                            <label for="phone_number">Phone Number</label>
+                            <input class="form-control" type="text" name="phone_number" id="phone_number">
+                            
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-dark mb-2 mt-2 position-absolute" type="submit" onmouseenter="tot()">Submit</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
         </form>
     
     </div>

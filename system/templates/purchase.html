@@ -24,6 +24,11 @@
         -moz-appearance: textfield;
         }
 
+        .my-form{
+            width: 600px;
+            margin: auto;
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
@@ -43,55 +48,58 @@
     <div class="container">
         <form action="" method="POST">
             {% csrf_token %}
-            <table>
-                <tr>
-                    <td>Product Code</td>
-                    <td><input type="text" name="product_code" id="product_code" required></td>
-                </tr>
-                <tr>
-                    <td>Category</td>
-                    <td><input type="text" name="category" id="category" required></td>
-                </tr>
-                <tr>
-                    <td>Color</td>
-                    <td><input type="text" name="color" id="color" required></td>
-                </tr>
-                <tr>
-                    <td>Description(Opt.)</td>
-                    <td><input type="text" name="description" id="description"></td>
-                </tr>
-                <tr>
-                    <td>Purchase Price</td>
-                    <td><input type="decimal" name="purchase_price" id="purchase_price" required></td>
-                </tr>
-                <tr>
-                    <td>Selling Price</td>
-                    <td><input type="decimal" name="selling_price" id="selling_price" required></td>
-                </tr>
-                <tr>
-                    <td>Qty</td>
-                    <td><input type="number" name="qty" id="qty" required></td>
-                </tr>
-            </table>
-            <br>
-            <div>Supplier Details (Optional)</div>
-            <table>
-                <tr>
-                    <td>Organization</td>
-                    <td><input type="text" name="organization" id="organization"></td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td><input type="text" name="address" id="address"></td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <td><input type="text" name="phone_number" id="phone_number"></td>
-                </tr>
-                <tr>
-                    <td><button type="submit">Submit</button></td>            
-                </tr>
-            </table>
+
+            <div class="my-form">
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="product_code">Product Code</label>
+                            <input class="form-control" type="text" name="product_code" id="product_code" required>
+    
+                            <label for="category">Category</label>
+                            <input class="form-control" type="text" name="category" id="category" required>
+            
+                            <label for="color">Color</label>
+                            <input class="form-control" type="text" name="color" id="color" required>
+            
+                            <label for="description">Description</label>
+                            <input class="form-control" type="text" name="description" id="description">
+                            
+                            <label for="purchase_price">Purchase Price</label>
+                            <input class="form-control" type="decimal" name="purchase_price" id="purchase_price" required>
+            
+                            <label for="selling_price">Selling Price</label>
+                            <input class="form-control" type="decimal" name="selling_price" id="selling_price" required>
+            
+                            <label for="qty">Qty</label>
+                            <input class="form-control" type="number" name="qty" id="qty" required>
+                        </div>
+                    </div>
+    
+                    <div class="col">
+                        <div class="form-group">
+                            <br>
+                            <div>Supplier Details (Optional)</div>
+                                            
+                            <label for="organization">Organization</label>
+                            <input class="form-control" type="text" name="organization" id="organization">
+
+                            <label for="address">Address</label>
+                            <input class="form-control" type="text" name="address" id="address">
+
+                            <label for="phone_number">Phone Number</label>
+                            <input class="form-control" type="text" name="phone_number" id="phone_number">
+                            
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-dark mb-2 mt-2 position-absolute" type="submit" onmouseenter="tot()">Submit</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
     
         </form>
     
