@@ -2,6 +2,26 @@
 
 {% block content %}
 
+<head>
+    <style>
+        a:link {
+        text-decoration: none;
+        }
+
+        a:visited {
+        text-decoration: none;
+        }
+
+        a:hover {
+        text-decoration: underline;
+        }
+
+        a:active {
+        text-decoration: underline;
+        }
+    </style>
+</head>
+
 <body>
     <h1 class="text-center">{{ title }}</h1>
     {% if messages %}
@@ -10,21 +30,25 @@
         {% endfor %}
     {% endif %}
 
-    <div class="container"">
+    <div class="container">
         <div>
-            <input type="text" id="myInput" name="search" placeholder="Search Product Code..." onkeyup="tableSearch()">
+            <div class="form-outline mb-auto">
+                <input class="form-control" style="width: 220px;" type="text" id="myInput" name="search" placeholder="Search Product Code..." onkeyup="tableSearch()">
+            </div>
            
-        <table id="myTable" data-filter-control='true' data-show-search-clear-button='true'>
-            <tr>
-                <th>#</th>
-                <th>Product Code</th>
-                <th>Category</th>
-                <th>Color</th>
-                <th>Description</th>
-                <th>Purchase price</th>
-                <th>Selling price</th>
-                <th>Qty</th>
-            </tr>
+        <table id="myTable" data-filter-control='true' data-show-search-clear-button='true' class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Code</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Purchase price</th>
+                    <th scope="col">Selling price</th>
+                    <th scope="col">Qty</th>
+                </tr>
+            </thead>
             {% for item in item_table %}
             <tr>
                 <td>{{ forloop.counter }}</td>
