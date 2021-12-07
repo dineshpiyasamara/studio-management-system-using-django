@@ -2,13 +2,22 @@
 
 {% block content %}
 
+<head>
+    <style>
+        .my-form{
+            width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+
 <body>
     <h1 class="text-center">{{ title }}</h1>
 
     <div class="container">
         <form action="" method="POST">
             {% csrf_token %}
-            <table>
+            <!-- <table>
                 <tr>
                     <td>First Name</td>
                     <td><input type="text" name="first_name" value={{data.0}}></td>
@@ -47,12 +56,90 @@
                 <tr>
                     <td><button type="submit" name="edit_bio">Save</button></td>            
                 </tr>
-            </table>
-    
-            <p>Do you want to update your password? <a href="./change-password/">Click here</a></p>
-    
+            </table> -->
+
+            <div class="my-form">
+                    <div class="form-group row m-2 mt-4">
+                        <label class="col-sm-3 col-form-label" for="first_name">First Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="first_name" value={{data.0}}>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <label class="col-sm-3 col-form-label" for="last_name">Last Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="last_name" value={{data.1}}>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <label class="col-sm-3 col-form-label" for="address">Address</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="address" value={{data.2}}>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row m-2">
+                        <label class="col-sm-3 col-form-label" for="phone_number">Phone No.</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="phone_number" value={{data.3}}>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <label class="col-sm-3 col-form-label" for="email">Email</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="email" name="email" value={{data.4}}>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <label class="col-sm-3 col-form-label" for="gender">Gender</label>
+                        
+                        <div class="col-sm-9 mt-2">
+                            {% if data.5 == 'MALE' %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="MALE" checked>
+                                <label class="form-check-label" for="male">MALE</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="FEMALE">
+                                <label class="form-check-label" for="female">FEMALE</label>
+                            </div>
+                            {% elif data.5 == 'FEMALE' %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="MALE">
+                                <label class="form-check-label" for="male">MALE</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="FEMALE" checked>
+                                <label class="form-check-label" for="female">FEMALE</label>
+                            </div>
+                            {% else %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="MALE">
+                                <label class="form-check-label" for="male">MALE</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="FEMALE">
+                                <label class="form-check-label" for="female">FEMALE</label>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    
+                    <div style="text-align: right;">
+                        <button class="btn btn-outline-dark" style="width: 475px;" type="submit" name="edit_bio">Save</button>
+                        &nbsp;
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        Do you want to update your password? <a href="./change-password/">Click here</a>
+                    </div>             
+            </div>
         </form>
-        <div><a href="{% url 'employees' %}">Back</a></div>
+        
     </div>
 </body>
 
