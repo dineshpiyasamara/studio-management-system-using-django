@@ -2,17 +2,76 @@
 
 {% block content %}
 
+<head>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
 <body>
+
     <div class="container">
-        <div><a href="{% url 'inventory' %}">Inventory</a></div>
-        <div><a href="{% url 'sell' %}">Sell Items</a></div>
-        <div><a href="{% url 'purchase' %}">Purchase Items</a></div>
-        <div><a href="{% url 'employees' %}">Employees</a></div>
-        <br>
-        <br>
-        <div><a href="{% url 'logout' %}">Logout</a></div>
+        <div class="body2">
+            <div class="clockspace">
+                <div class="clock">
+                    <div class="num num1">
+                        <div>1</div>
+                    </div>
+                    <div class="num num2">
+                        <div>2</div>
+                    </div>
+                    <div class="num num3">
+                        <div>3</div>
+                    </div>
+                    <div class="num num4">
+                        <div>4</div>
+                    </div>
+                    <div class="num num5">
+                        <div>5</div>
+                    </div>
+                    <div class="num num6">
+                        <div>6</div>
+                    </div>
+                    <div class="num num7">
+                        <div>7</div>
+                    </div>
+                    <div class="num num8">
+                        <div>8</div>
+                    </div>
+                    <div class="num num9">
+                        <div>9</div>
+                    </div>
+                    <div class="num num10">
+                        <div>10</div>
+                    </div>
+                    <div class="num num11">
+                        <div>11</div>
+                    </div>
+                    <div class="num num12">
+                        <div>12</div>
+                    </div>
+            
+                    <div class="hand" id="sec">
+                        <div class="sec"></div>
+                    </div>
+                    <div class="hand" id="min">
+                        <div class="min"></div>
+                    </div>
+                    <div class="hand" id="hour">
+                        <div class="hour"></div>
+                    </div>
+                </div>
+        
+                
+            </div>
+            <div class="">
+                    <div><a href="{% url 'inventory' %}">Inventory</a></div>
+                    <div><a href="{% url 'purchase' %}">Purchase Items</a></div>
+                    <div><a href="{% url 'sell' %}">Sell Items</a></div>
+                    <div><a href="{% url 'employees' %}">Employees</a></div>
+            </div>
+        </div>
     </div>
 
+    <script src="../static/js/clock.js"></script>
 </body>
 
 {% endblock content %}
